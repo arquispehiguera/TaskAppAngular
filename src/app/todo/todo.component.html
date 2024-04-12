@@ -1,0 +1,31 @@
+<section class="todoList-wrapper">
+<h1 class="Tittle">Mi primera aplicacion</h1>
+<hr class="divider">
+<div class="new-todo">
+   <input type="text" (keydown.enter)="addTask()" placeholder="Escribe una tarea" [formControl]="frmC">
+   <button (click)="addTask()">+</button>  
+</div>
+
+ <div class="filters">
+   <button (click)="onFilter('all')" [style.background-color]="filter() === 'all' ? '#EE1504' : '#F8CCC6'">Todos</button>
+   <button (click)="onFilter('active')" [style.background-color]="filter() === 'active' ? '#EE1504' : '#F8CCC6'">Activos</button>
+   <button (click)="onFilter('completed')" [style.background-color]="filter() === 'completed' ? '#EE1504' : '#F8CCC6'">Completados</button>
+ </div>
+
+<ul class="todoList">
+    @for (item of todoListFiltered(); track item.id) {
+      @if (item.editing) {
+        <li class="todo-editing">
+            <input type="text" placeholder="Editar tarea" [value]="item.tittle" (keydown.enter)="editTitleTask(item.id,$event)">
+       </li>
+      }@else {
+        <li class="todo">
+         <input type="checkbox" [checked]="item.completed" (click)="IsCompleted(item.id)">
+         <label >{{item.tittle}}</label>
+         <button *ngIf="!item.completed" (click)="UpdateTaskToogle(item.id)">Editar</button>
+         <button class="text-red-500 font-bold" (click)="RemoveTask(item.id)">Eliminar</button>
+        </li>
+      }
+    }
+</ul>
+</section>
